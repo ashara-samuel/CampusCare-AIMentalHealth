@@ -40,3 +40,21 @@ class Note(Base):
                                                  onupdate=_utcnow)
 
     owner: Mapped[User] = relationship(back_populates="notes")
+
+
+class Message(Base):
+    """A single turn in a user's counselor conversation. Scoped per user.
+
+    This is sensitive content (mental-health disclosures), so it is stored only
+    under the owning user, never logged, and the user can delete their own
+    history. For production: encrypt at rest and set a retention policy.
+    """
+
+    __tablename__ = "messages"
+
+    id: Mapped[int] = mapped_column(primary_key=True)
+    user_id: Mapped[int] = mapped_column(ForeignKey("users.id", ondelete="CASCADE"),
+                                         index=True, nullable=False)
+    role: Mapped[str] = mapped_column(String(16), nullable=False)   # 'user' | 'assistant'
+    content: Mapped[str] = mapped_column(Text, nullable=False)
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=_utcnow)

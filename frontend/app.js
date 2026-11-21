@@ -25,6 +25,15 @@ function showApp() {
   $("#app-view").classList.remove("hidden");
   $("#logout").classList.remove("hidden");
   loadNotes();
+  loadHistory();
+}
+
+async function loadHistory() {
+  try {
+    const msgs = await api("/chat/history");
+    $("#messages").innerHTML = "";
+    msgs.forEach((m) => bubble(m.content, m.role === "user" ? "user" : "bot"));
+  } catch (err) { if (/auth|token/i.test(err.message)) showAuth(); }
 }
 function showAuth() {
   $("#app-view").classList.add("hidden");
@@ -217,6 +226,15 @@ $("#note-form").addEventListener("submit", async (e) => {
     await api("/notes", { method: "POST", body: { title: d.title || "Untitled", text: d.text || "" } });
     e.target.reset();
     loadNotes();
+  } catch (err) { if (/auth|token/i.test(err.message)) showAuth(); }
+});
+
+// ---- clear history --------------------------------------------------
+$("#clear-history").addEventListener("click", async () => {
+  if (!confirm("Delete your whole conversation history? This can't be undone.")) return;
+  try {
+    await api("/chat/history", { method: "DELETE" });
+    $("#messages").innerHTML = "";
   } catch (err) { if (/auth|token/i.test(err.message)) showAuth(); }
 });
 

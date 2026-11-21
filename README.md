@@ -27,6 +27,12 @@ guardrails are the architecture:
   supportive reply with resources gently attached. The classifier is fail-safe
   (errors degrade to the rule-based floor) and never lowers risk. The counselor
   prompt is non-clinical and never claims to replace professional care.
+- **Conversation memory, handled with care.** The counselor remembers recent
+  turns (a bounded window) so it has continuity instead of answering each message
+  cold. That history is sensitive, so it's scoped to the owning user, never logged,
+  and the user can wipe it any time (`DELETE /chat/history`). The crisis gate runs
+  on every new message regardless of history. (Production: encrypt at rest + set a
+  retention policy.)
 - **No sensitive logging.** Chat content is never written to logs.
 - **Hardened transport.** Security headers (CSP, HSTS, nosniff, frame-deny),
   locked-down CORS, in-memory rate limiting, docs hidden outside debug.
@@ -60,7 +66,8 @@ make docker
 | GET  | `/auth/me` | ✓ | current user |
 | GET/POST | `/notes` | ✓ | list / create (own only) |
 | GET/PUT/DELETE | `/notes/{id}` | ✓ | read / update / delete (own only) |
-| POST | `/chat` | ✓ | counselor reply, crisis-gated |
+| POST | `/chat` | ✓ | counselor reply, crisis-gated, with memory |
+| GET/DELETE | `/chat/history` | ✓ | view / clear your conversation (own only) |
 | POST | `/voice/speak` | ✓ | text-to-speech of a reply (503 if unconfigured) |
 | GET | `/healthz` | — | liveness |
 

@@ -49,9 +49,13 @@
       <div class="card chat">
         <div class="chat-head">
           <h2>Talk it through</h2>
-          <label class="voice-toggle" title="Read replies aloud">
-            <input type="checkbox" id="voice-out" /> <span>🔊 Voice</span>
-          </label>
+          <div class="chat-controls">
+            <label class="voice-toggle" title="Read replies aloud">
+              <input type="checkbox" id="voice-out" /> <span>🔊 Voice</span>
+            </label>
+            <button type="button" id="clear-history" class="ghost small"
+                    title="Delete your conversation history">Clear</button>
+          </div>
         </div>
         <div id="messages" class="messages" aria-live="polite"></div>
         <form id="chat-form" class="chat-input">

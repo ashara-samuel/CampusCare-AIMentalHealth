@@ -31,11 +31,16 @@ chat and direct them to emergency services and a crisis line.
 """
 
 
-def build_messages(user_message: str) -> list[dict]:
-    return [
-        {"role": "system", "content": SYSTEM_PROMPT},
-        {"role": "user", "content": user_message},
-    ]
+def build_messages(user_message: str, history: list[dict] | None = None) -> list[dict]:
+    """System prompt + prior turns (oldest first) + the new user message.
+
+    `history` items are {"role": "user"|"assistant", "content": str}. The caller
+    bounds how much history is passed, so context stays small and relevant.
+    """
+    messages = [{"role": "system", "content": SYSTEM_PROMPT}]
+    messages.extend(history or [])
+    messages.append({"role": "user", "content": user_message})
+    return messages
 
 
 # Shown to users on first contact / in the UI.

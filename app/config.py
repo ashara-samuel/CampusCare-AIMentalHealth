@@ -42,6 +42,9 @@ class Settings(BaseSettings):
     # Crisis / safety
     crisis_hotline_region: str = "international"
 
+    # Conversation memory: how many recent turns to feed back as context
+    chat_history_window: int = 20
+
     def assert_production_safe(self) -> list[str]:
         """Return a list of production misconfigurations (empty == safe)."""
         problems = []
