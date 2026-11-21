@@ -18,8 +18,9 @@ USER appuser
 
 EXPOSE 8000
 
-# Healthcheck hits the liveness endpoint
+# Hosts (Render/Fly/Railway) inject $PORT; fall back to 8000 locally.
 HEALTHCHECK --interval=30s --timeout=3s --retries=3 \
-    CMD python -c "import urllib.request,sys; sys.exit(0 if urllib.request.urlopen('http://localhost:8000/healthz').status==200 else 1)"
+    CMD python -c "import os,urllib.request,sys; p=os.getenv('PORT','8000'); sys.exit(0 if urllib.request.urlopen(f'http://localhost:{p}/healthz').status==200 else 1)"
 
-CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]
+# Shell form so ${PORT} expands at runtime.
+CMD uvicorn app.main:app --host 0.0.0.0 --port ${PORT:-8000}

@@ -57,6 +57,13 @@ export SECRET_KEY=$(python -c "import secrets;print(secrets.token_urlsafe(48))")
 make docker
 ```
 
+## Deploy
+
+Deploy-ready: binds `$PORT`, Postgres driver included, tables auto-created on
+first boot, `/healthz` check. One-click on **Render** via `render.yaml` (web
+service + free Postgres, auto-generated secret). Full steps — and Fly/Railway
+alternatives — in [`DEPLOY.md`](./DEPLOY.md).
+
 ## API
 
 | Method | Path | Auth | Purpose |

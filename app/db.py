@@ -11,9 +11,20 @@ from .config import get_settings
 
 settings = get_settings()
 
+
+def _normalize(url: str) -> str:
+    """Hosts (Render/Heroku/Fly) hand out `postgresql://...`; point it at the
+    psycopg3 driver so SQLAlchemy uses the installed driver, not psycopg2."""
+    if url.startswith("postgresql://"):
+        return url.replace("postgresql://", "postgresql+psycopg://", 1)
+    return url
+
+
+DATABASE_URL = _normalize(settings.database_url)
+
 # check_same_thread only matters for SQLite; harmless to pass conditionally.
-connect_args = {"check_same_thread": False} if settings.database_url.startswith("sqlite") else {}
-engine = create_engine(settings.database_url, connect_args=connect_args, future=True)
+connect_args = {"check_same_thread": False} if DATABASE_URL.startswith("sqlite") else {}
+engine = create_engine(DATABASE_URL, connect_args=connect_args, future=True)
 SessionLocal = sessionmaker(bind=engine, autocommit=False, autoflush=False, future=True)
 
 
