@@ -161,18 +161,16 @@ $("#chat-form").addEventListener("submit", async (e) => {
 async function speak(text) {
   const toggle = $("#voice-out");
   if (!toggle.checked || !text) return;
+  // Free, built-in browser text-to-speech — no API key, no backend, works offline.
+  // (The /voice/speak ElevenLabs endpoint stays as an optional higher-quality upgrade.)
+  if (!("speechSynthesis" in window)) { toggle.checked = false; return; }
   try {
-    const res = await fetch("/voice/speak", {
-      method: "POST",
-      headers: { "Content-Type": "application/json", Authorization: `Bearer ${token()}` },
-      body: JSON.stringify({ text: text.slice(0, 2000) }),
-    });
-    if (!res.ok) {
-      if (res.status === 503) toggle.checked = false;   // voice not configured
-      return;
-    }
-    const audio = new Audio(URL.createObjectURL(await res.blob()));
-    audio.play().catch(() => {});
+    window.speechSynthesis.cancel();            // stop anything mid-sentence
+    const u = new SpeechSynthesisUtterance(text);
+    u.lang = "en-US";
+    u.rate = 1;
+    u.pitch = 1;
+    window.speechSynthesis.speak(u);
   } catch (_) { /* ignore playback issues */ }
 }
 

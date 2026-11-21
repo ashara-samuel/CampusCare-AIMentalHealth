@@ -85,10 +85,12 @@ Hands-free, and privacy-first by design:
 - **Speech-to-text (input)** runs entirely **in the browser** (Web Speech API) — a
   student's audio never leaves their device; only the final text is sent, through
   the same auth + crisis-safety path as typed chat.
-- **Text-to-speech (output)** is an auth-gated endpoint that proxies ElevenLabs
-  with the key from env (replacing the old insecure PHP endpoint). Without
-  `ELEVENLABS_API_KEY` it returns 503 and the UI stays text-only. Toggle "🔊 Voice"
+- **Text-to-speech (output)** uses the browser's built-in `SpeechSynthesis` by
+  default — **free, no API key, no backend call, works offline.** Toggle "🔊 Voice"
   in the chat header to hear replies; tap 🎤 to speak.
+- **Optional upgrade:** an auth-gated `/voice/speak` endpoint can proxy ElevenLabs
+  (key from env) for higher-quality voices. It's there if you want it; the UI
+  doesn't require it.
 
 ## Layout
 
