@@ -1,0 +1,17 @@
+# Secrets — never commit
+.env
+*.pem
+
+# Local DB / runtime
+*.db
+tests/_test.db
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+*.egg-info/
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
