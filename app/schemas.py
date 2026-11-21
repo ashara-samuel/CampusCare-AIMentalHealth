@@ -53,3 +53,7 @@ class ChatOut(BaseModel):
     crisis_detected: bool
     elevated: bool = False          # heightened concern, not acute crisis
     resources: list[dict] = []
+
+
+class SpeakIn(BaseModel):
+    text: str = Field(min_length=1, max_length=2_000)

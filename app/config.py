@@ -23,6 +23,11 @@ class Settings(BaseSettings):
     openai_api_key: str | None = None
     openai_model: str = "gpt-4o-mini"
 
+    # Voice / TTS (optional — /voice/speak returns 503 if unset)
+    elevenlabs_api_key: str | None = None
+    elevenlabs_voice_id: str = "EXAVITQu4vr4xnSDxMaL"   # a default ElevenLabs voice
+    elevenlabs_model: str = "eleven_monolingual_v1"
+
     # Auth
     access_token_expire_minutes: int = 60
     jwt_algorithm: str = "HS256"

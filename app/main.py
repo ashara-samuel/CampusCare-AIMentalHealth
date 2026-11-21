@@ -15,7 +15,7 @@ from fastapi.staticfiles import StaticFiles
 
 from .config import get_settings
 from .db import init_db
-from .routers import auth, chat, notes
+from .routers import auth, chat, notes, voice
 from .safety.guardrails import DISCLAIMER
 
 settings = get_settings()
@@ -92,6 +92,7 @@ async def rate_limit(request: Request, call_next):
 app.include_router(auth.router)
 app.include_router(notes.router)
 app.include_router(chat.router)
+app.include_router(voice.router)
 
 
 @app.get("/healthz", tags=["meta"])

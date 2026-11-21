@@ -47,9 +47,15 @@
     <!-- App -->
     <section id="app-view" class="grid hidden">
       <div class="card chat">
-        <h2>Talk it through</h2>
+        <div class="chat-head">
+          <h2>Talk it through</h2>
+          <label class="voice-toggle" title="Read replies aloud">
+            <input type="checkbox" id="voice-out" /> <span>🔊 Voice</span>
+          </label>
+        </div>
         <div id="messages" class="messages" aria-live="polite"></div>
         <form id="chat-form" class="chat-input">
+          <button type="button" id="mic" class="mic" title="Speak" aria-label="Speak">🎤</button>
           <input id="chat-text" type="text" autocomplete="off"
                  placeholder="How are you feeling?" maxlength="4000" required />
           <button type="submit" class="primary">Send</button>

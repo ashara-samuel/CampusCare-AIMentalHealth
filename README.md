@@ -61,7 +61,20 @@ make docker
 | GET/POST | `/notes` | ✓ | list / create (own only) |
 | GET/PUT/DELETE | `/notes/{id}` | ✓ | read / update / delete (own only) |
 | POST | `/chat` | ✓ | counselor reply, crisis-gated |
+| POST | `/voice/speak` | ✓ | text-to-speech of a reply (503 if unconfigured) |
 | GET | `/healthz` | — | liveness |
+
+## Voice
+
+Hands-free, and privacy-first by design:
+
+- **Speech-to-text (input)** runs entirely **in the browser** (Web Speech API) — a
+  student's audio never leaves their device; only the final text is sent, through
+  the same auth + crisis-safety path as typed chat.
+- **Text-to-speech (output)** is an auth-gated endpoint that proxies ElevenLabs
+  with the key from env (replacing the old insecure PHP endpoint). Without
+  `ELEVENLABS_API_KEY` it returns 503 and the UI stays text-only. Toggle "🔊 Voice"
+  in the chat header to hear replies; tap 🎤 to speak.
 
 ## Layout
 
