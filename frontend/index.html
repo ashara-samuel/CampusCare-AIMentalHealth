@@ -4,129 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>CampusCare — a soft place for whatever you're feeling</title>
-  <style>
-    :root {
-      --ink: #1d2b2a; --muted: #5d6f6b; --brand: #3a8f7f; --brand-ink: #275e53;
-      --bg: #f7faf9; --card: rgba(255,255,255,.72); --line: rgba(39,94,83,.12);
-      --radius: 22px;
-    }
-    * { box-sizing: border-box; }
-    html { scroll-behavior: smooth; }
-    body {
-      margin: 0; font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
-      color: var(--ink); background: var(--bg); overflow-x: hidden; line-height: 1.6;
-    }
-
-    /* floating calm blobs */
-    .blobs { position: fixed; inset: 0; z-index: -1; overflow: hidden; }
-    .blob {
-      position: absolute; border-radius: 50%; filter: blur(60px); opacity: .55;
-      animation: float 24s ease-in-out infinite;
-    }
-    .blob.b1 { width: 46vw; height: 46vw; left: -10vw; top: -8vw; background: #a8e6cf; }
-    .blob.b2 { width: 40vw; height: 40vw; right: -8vw; top: 6vw; background: #ffd3b6; animation-duration: 30s; }
-    .blob.b3 { width: 44vw; height: 44vw; left: 18vw; bottom: -16vw; background: #d4c5f9; animation-duration: 27s; }
-    .blob.b4 { width: 30vw; height: 30vw; right: 10vw; bottom: -6vw; background: #c9f0ff; animation-duration: 33s; }
-    @keyframes float {
-      0%,100% { transform: translate(0,0) scale(1); }
-      33% { transform: translate(4vw,-3vw) scale(1.08); }
-      66% { transform: translate(-3vw,3vw) scale(.95); }
-    }
-
-    .wrap { max-width: 1040px; margin: 0 auto; padding: 0 22px; }
-
-    /* nav */
-    nav {
-      position: sticky; top: 0; z-index: 10; backdrop-filter: blur(10px);
-      background: rgba(247,250,249,.6); border-bottom: 1px solid var(--line);
-    }
-    .nav-inner { display: flex; align-items: center; justify-content: space-between; padding: 14px 22px; max-width: 1040px; margin: 0 auto; }
-    .brand { display: flex; align-items: center; gap: 9px; font-weight: 800; letter-spacing: -.02em; }
-    .heart { width: 22px; height: 22px; }
-    .nav-cta { color: var(--brand-ink); text-decoration: none; font-weight: 600; font-size: .95rem; }
-    .nav-cta:hover { color: var(--brand); }
-
-    /* hero */
-    .hero { text-align: center; padding: 72px 0 56px; }
-    .pill {
-      display: inline-block; background: var(--card); border: 1px solid var(--line);
-      border-radius: 999px; padding: 6px 14px; font-size: .82rem; color: var(--brand-ink);
-      margin-bottom: 22px; backdrop-filter: blur(6px);
-    }
-    h1 {
-      font-size: clamp(2.3rem, 6vw, 4rem); line-height: 1.05; letter-spacing: -.03em;
-      margin: 0 0 18px; font-weight: 800;
-    }
-    h1 .grad {
-      background: linear-gradient(100deg, #3a8f7f, #5bbfa0, #7a9ff0);
-      -webkit-background-clip: text; background-clip: text; color: transparent;
-    }
-    .sub { font-size: clamp(1.05rem, 2.4vw, 1.3rem); color: var(--muted); max-width: 620px; margin: 0 auto 30px; }
-    .cta-row { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
-    .btn {
-      border: none; border-radius: 999px; padding: 14px 26px; font: inherit; font-weight: 700;
-      cursor: pointer; text-decoration: none; display: inline-block; transition: transform .2s, box-shadow .2s;
-    }
-    .btn.primary { background: var(--brand); color: #fff; box-shadow: 0 10px 24px rgba(58,143,127,.3); }
-    .btn.primary:hover { transform: translateY(-2px); box-shadow: 0 14px 30px rgba(58,143,127,.38); }
-    .btn.soft { background: var(--card); color: var(--brand-ink); border: 1px solid var(--line); backdrop-filter: blur(6px); }
-    .btn.soft:hover { transform: translateY(-2px); }
-    .tiny { margin-top: 20px; font-size: .82rem; color: var(--muted); }
-
-    /* sections */
-    section { padding: 48px 0; }
-    .eyebrow { text-align: center; color: var(--brand); font-weight: 700; letter-spacing: .08em; text-transform: uppercase; font-size: .8rem; }
-    h2 { text-align: center; font-size: clamp(1.6rem, 4vw, 2.3rem); letter-spacing: -.02em; margin: 6px 0 36px; }
-
-    /* interactive guide */
-    .guide { background: var(--card); border: 1px solid var(--line); border-radius: var(--radius);
-      backdrop-filter: blur(10px); padding: 28px; box-shadow: 0 10px 40px rgba(39,94,83,.06); }
-    .steps { position: relative; min-height: 150px; }
-    .step { display: none; text-align: center; animation: stepIn .5s cubic-bezier(.2,.7,.2,1); }
-    .step.active { display: block; }
-    .step .emoji { font-size: 2.6rem; }
-    .step h3 { margin: 10px 0 6px; font-size: 1.25rem; }
-    .step p { margin: 0 auto; color: var(--muted); max-width: 440px; }
-    @keyframes stepIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
-    .guide-bar { height: 5px; border-radius: 999px; background: var(--line); margin: 22px 0 16px; overflow: hidden; }
-    .guide-fill { height: 100%; width: 33%; background: var(--brand); border-radius: 999px; transition: width .4s ease; }
-    .guide-nav { display: flex; align-items: center; justify-content: space-between; }
-    .dots { display: flex; gap: 8px; }
-    .dot { width: 9px; height: 9px; border-radius: 50%; background: var(--line); border: none; cursor: pointer; padding: 0; }
-    .dot.on { background: var(--brand); transform: scale(1.2); }
-    .gbtn { background: none; border: 1px solid var(--line); border-radius: 999px; padding: 8px 16px; cursor: pointer; font: inherit; color: var(--brand-ink); font-weight: 600; }
-    .gbtn:disabled { opacity: .35; cursor: default; }
-
-    /* features */
-    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 16px; }
-    .feat { background: var(--card); border: 1px solid var(--line); border-radius: var(--radius);
-      padding: 24px; backdrop-filter: blur(10px); }
-    .feat .ic { font-size: 1.8rem; }
-    .feat h3 { margin: 12px 0 6px; font-size: 1.15rem; }
-    .feat p { margin: 0; color: var(--muted); font-size: .96rem; }
-
-    /* reassurance */
-    .calm { text-align: center; background: linear-gradient(180deg, rgba(168,230,207,.25), rgba(212,197,249,.18));
-      border: 1px solid var(--line); border-radius: var(--radius); padding: 40px 28px; }
-    .calm p { color: var(--muted); max-width: 560px; margin: 10px auto 0; }
-
-    footer { text-align: center; padding: 40px 0 56px; color: var(--muted); font-size: .88rem; }
-    footer a { color: var(--muted); }
-    footer a:hover { color: var(--brand); }
-
-    /* scroll reveal */
-    .reveal { opacity: 0; transform: translateY(18px); transition: opacity .8s ease, transform .8s cubic-bezier(.2,.7,.2,1); }
-    .reveal.in { opacity: 1; transform: none; }
-
-    /* RESPECT the user: no motion if they don't want it */
-    @media (prefers-reduced-motion: reduce) {
-      html { scroll-behavior: auto; }
-      .blob { animation: none; }
-      .step { animation: none; }
-      .reveal { opacity: 1; transform: none; transition: none; }
-      .btn:hover { transform: none; }
-    }
-  </style>
+  <link rel="stylesheet" href="home.css" />
 </head>
 <body>
   <div class="blobs" aria-hidden="true">
@@ -199,11 +77,11 @@
 
   <section class="wrap reveal">
     <div class="calm">
-      <h2 style="margin:0">You deserve support.</h2>
+      <h2>You deserve support.</h2>
       <p>CampusCare is here for the everyday weight — and when it's more than everyday, it'll help
         you find a real person. If you're in immediate danger, contact your local emergency
         services or a crisis line.</p>
-      <div class="cta-row" style="margin-top:22px">
+      <div class="cta-row mt">
         <a class="btn primary" href="app.html">Start when you're ready</a>
       </div>
     </div>
@@ -214,45 +92,6 @@
     <a href="privacy.html">Privacy Policy</a>
   </footer>
 
-  <script>
-    // Scroll reveal — gentle, and skipped entirely for reduced-motion users.
-    (function () {
-      var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-      var items = document.querySelectorAll(".reveal");
-      if (reduce || !("IntersectionObserver" in window)) {
-        items.forEach(function (el) { el.classList.add("in"); });
-      } else {
-        var io = new IntersectionObserver(function (entries) {
-          entries.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); } });
-        }, { threshold: .15 });
-        items.forEach(function (el) { io.observe(el); });
-      }
-    })();
-
-    // Interactive guide — fully user-paced. No autoplay, no popups, nothing forced.
-    (function () {
-      var steps = Array.prototype.slice.call(document.querySelectorAll(".step"));
-      var total = steps.length, i = 0;
-      var prev = document.getElementById("gprev"), next = document.getElementById("gnext");
-      var fill = document.getElementById("gfill"), dotsWrap = document.getElementById("gdots");
-      steps.forEach(function (_, idx) {
-        var d = document.createElement("button");
-        d.className = "dot" + (idx === 0 ? " on" : "");
-        d.setAttribute("aria-label", "Step " + (idx + 1));
-        d.addEventListener("click", function () { go(idx); });
-        dotsWrap.appendChild(d);
-      });
-      function go(n) {
-        i = Math.max(0, Math.min(total - 1, n));
-        steps.forEach(function (s, idx) { s.classList.toggle("active", idx === i); });
-        Array.prototype.forEach.call(dotsWrap.children, function (d, idx) { d.classList.toggle("on", idx === i); });
-        fill.style.width = ((i + 1) / total * 100) + "%";
-        prev.disabled = i === 0; next.disabled = i === total - 1;
-      }
-      prev.addEventListener("click", function () { go(i - 1); });
-      next.addEventListener("click", function () { go(i + 1); });
-      go(0);
-    })();
-  </script>
+  <script src="home.js"></script>
 </body>
 </html>
