@@ -10,7 +10,7 @@ from contextlib import asynccontextmanager
 
 from fastapi import FastAPI, Request, Response, status
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import JSONResponse
+from fastapi.responses import FileResponse, JSONResponse
 from fastapi.staticfiles import StaticFiles
 
 from .config import get_settings
@@ -107,5 +107,13 @@ def root() -> dict:
 
 # Serve the static frontend at /ui (same-origin -> no CORS needed for the SPA).
 _FRONTEND_DIR = os.path.join(os.path.dirname(os.path.dirname(__file__)), "frontend")
+
+
+@app.get("/privacy", include_in_schema=False)
+def privacy() -> FileResponse:
+    """Public privacy policy — a stable URL for store listings and the app footer."""
+    return FileResponse(os.path.join(_FRONTEND_DIR, "privacy.html"))
+
+
 if os.path.isdir(_FRONTEND_DIR):
     app.mount("/ui", StaticFiles(directory=_FRONTEND_DIR, html=True), name="ui")

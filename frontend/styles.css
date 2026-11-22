@@ -95,6 +95,10 @@ h2 { margin: 0 0 12px; font-size: 1.05rem; }
   border: 1px solid #cfe0db; color: var(--brand-ink); font-size: .9rem;
 }
 
+.site-footer { text-align: center; padding: 24px 0 40px; }
+.site-footer a { color: var(--muted); font-size: .85rem; text-decoration: none; }
+.site-footer a:hover { color: var(--brand); text-decoration: underline; }
+
 .chat-head { display: flex; align-items: center; justify-content: space-between; }
 .chat-controls { display: flex; align-items: center; gap: 10px; }
 .ghost.small { padding: 4px 10px; font-size: .8rem; }
