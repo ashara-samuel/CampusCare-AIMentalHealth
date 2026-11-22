@@ -32,8 +32,14 @@ class Settings(BaseSettings):
     access_token_expire_minutes: int = 60
     jwt_algorithm: str = "HS256"
 
-    # CORS — lock down in production to your real origins
-    cors_origins: list[str] = ["http://localhost:3000", "http://localhost:8000"]
+    # CORS — the web UI is same-origin (needs none); these allow the packaged
+    # mobile app (Capacitor serves from capacitor://localhost / http://localhost)
+    # and local dev to call the API. Auth is Bearer-token, not cookie-based.
+    cors_origins: list[str] = [
+        "http://localhost:3000", "http://localhost:8000",
+        "capacitor://localhost", "ionic://localhost",
+        "http://localhost", "https://localhost",
+    ]
 
     # Rate limiting (requests per window per client)
     rate_limit_requests: int = 30

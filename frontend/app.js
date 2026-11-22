@@ -2,6 +2,8 @@
 // Token note: stored in localStorage for simplicity. For production, prefer an
 // httpOnly cookie so XSS can't read the token.
 
+const API_BASE = window.CAMPUSCARE_API_BASE || "";   // "" on web, deployed URL in the app
+
 const TOKEN_KEY = "cc_token";
 const token = () => localStorage.getItem(TOKEN_KEY);
 const setToken = (t) => localStorage.setItem(TOKEN_KEY, t);
@@ -12,7 +14,7 @@ const $ = (sel) => document.querySelector(sel);
 async function api(path, { method = "GET", body, auth = true } = {}) {
   const headers = { "Content-Type": "application/json" };
   if (auth && token()) headers["Authorization"] = `Bearer ${token()}`;
-  const res = await fetch(path, { method, headers, body: body ? JSON.stringify(body) : undefined });
+  const res = await fetch(API_BASE + path, { method, headers, body: body ? JSON.stringify(body) : undefined });
   if (res.status === 204) return null;
   const data = await res.json().catch(() => ({}));
   if (!res.ok) throw new Error(data.detail || "Something went wrong");

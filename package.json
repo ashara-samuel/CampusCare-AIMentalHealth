@@ -1,0 +1,25 @@
+{
+  "name": "campuscare-mobile",
+  "version": "1.0.0",
+  "description": "CampusCare mobile app — Capacitor wrapper around the web frontend, talking to the deployed API.",
+  "private": true,
+  "license": "MIT",
+  "scripts": {
+    "sync": "cap sync",
+    "add:android": "cap add android",
+    "add:ios": "cap add ios",
+    "open:android": "cap open android",
+    "open:ios": "cap open ios",
+    "assets": "capacitor-assets generate --iconBackgroundColor #3a8f7f --splashBackgroundColor #f4f7f8"
+  },
+  "dependencies": {
+    "@capacitor/android": "^6.1.0",
+    "@capacitor/app": "^6.0.0",
+    "@capacitor/core": "^6.1.0",
+    "@capacitor/ios": "^6.1.0"
+  },
+  "devDependencies": {
+    "@capacitor/assets": "^3.0.5",
+    "@capacitor/cli": "^6.1.0"
+  }
+}

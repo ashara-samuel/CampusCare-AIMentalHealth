@@ -64,6 +64,13 @@ first boot, `/healthz` check. One-click on **Render** via `render.yaml` (web
 service + free Postgres, auto-generated secret). Full steps — and Fly/Railway
 alternatives — in [`DEPLOY.md`](./DEPLOY.md).
 
+## Mobile (Android & iOS)
+
+The same frontend ships as native apps via **Capacitor** — one codebase, both
+stores, pointing at the deployed API. Build and store-submission steps (and the
+mental-health review requirements) are in [`MOBILE.md`](./MOBILE.md). Quick start:
+`npm install && npx cap add android && npx cap add ios` (iOS needs a Mac).
+
 ## API
 
 | Method | Path | Auth | Purpose |

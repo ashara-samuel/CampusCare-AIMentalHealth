@@ -1,0 +1,11 @@
+{
+  "appId": "com.asharasamuel.campuscare",
+  "appName": "CampusCare",
+  "webDir": "frontend",
+  "server": {
+    "androidScheme": "https"
+  },
+  "ios": {
+    "contentInset": "always"
+  }
+}
