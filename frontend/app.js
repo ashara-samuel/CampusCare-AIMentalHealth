@@ -26,6 +26,7 @@ function showApp() {
   $("#auth-view").classList.add("hidden");
   $("#app-view").classList.remove("hidden");
   $("#logout").classList.remove("hidden");
+  $("#delete-account").classList.remove("hidden");
   loadNotes();
   loadHistory();
 }
@@ -41,6 +42,7 @@ function showAuth() {
   $("#app-view").classList.add("hidden");
   $("#auth-view").classList.remove("hidden");
   $("#logout").classList.add("hidden");
+  $("#delete-account").classList.add("hidden");
   $("#messages").innerHTML = "";
 }
 
@@ -83,6 +85,17 @@ $("#register-form").addEventListener("submit", async (e) => {
 });
 
 $("#logout").addEventListener("click", () => { clearToken(); showAuth(); });
+
+$("#delete-account").addEventListener("click", async () => {
+  if (!confirm("Permanently delete your account and ALL your data (notes and conversations)? This cannot be undone.")) return;
+  if (!confirm("Are you sure? This is final.")) return;
+  try {
+    await api("/auth/me", { method: "DELETE" });
+  } catch (_) { /* sign out regardless */ }
+  clearToken();
+  showAuth();
+  alert("Your account and all your data have been deleted.");
+});
 
 // ---- chat -----------------------------------------------------------
 function bubble(text, cls) {

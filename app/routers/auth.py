@@ -3,12 +3,12 @@
 from __future__ import annotations
 
 from fastapi import APIRouter, Depends, HTTPException, status
-from sqlalchemy import select
+from sqlalchemy import delete, select
 from sqlalchemy.orm import Session
 
 from ..db import get_db
 from ..deps import get_current_user
-from ..models import User
+from ..models import Message, Note, User
 from ..schemas import LoginIn, RegisterIn, TokenOut, UserOut
 from ..security import create_access_token, hash_password, verify_password
 
@@ -43,3 +43,18 @@ def login(body: LoginIn, db: Session = Depends(get_db)) -> TokenOut:
 @router.get("/me", response_model=UserOut)
 def me(user: User = Depends(get_current_user)) -> User:
     return user
+
+
+@router.delete("/me", status_code=status.HTTP_204_NO_CONTENT)
+def delete_account(db: Session = Depends(get_db),
+                   user: User = Depends(get_current_user)) -> None:
+    """Permanently delete the account and ALL of its data.
+
+    Required by the App Store and Google Play for apps with accounts. We delete
+    the user's messages and notes explicitly (so it works on SQLite too, where FK
+    cascade isn't on by default) and then the user. Irreversible.
+    """
+    db.execute(delete(Message).where(Message.user_id == user.id))
+    db.execute(delete(Note).where(Note.user_id == user.id))
+    db.delete(user)
+    db.commit()

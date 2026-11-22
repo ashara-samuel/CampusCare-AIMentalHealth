@@ -90,12 +90,11 @@ A **mental-health** app gets extra scrutiny on both stores. Prepare:
 - **Data safety form** (Play) / **App Privacy** labels (Apple) — declare that you
   collect email + chat history, used for app functionality, not shared.
 - **Account deletion** — both stores require apps with accounts to let users delete
-  their account/data. You have `DELETE /chat/history`; add a full account-deletion
-  path before submitting (it's a hard requirement now, not optional).
+  their account/data. ✅ Built: `DELETE /auth/me` removes the account and all its
+  data, reachable in-app via the "Delete account" button.
 
 ## Before a real launch (production hardening)
 
-Same list as `DEPLOY.md`, plus: encrypt conversation history at rest, a real
-privacy policy, and the account-deletion endpoint above. This app handles
-sensitive data about potentially vulnerable users — treat the store review as a
-floor, not the bar.
+Same list as `DEPLOY.md`, plus: encrypt conversation history at rest and a real
+privacy policy (account deletion is done). This app handles sensitive data about
+potentially vulnerable users — treat the store review as a floor, not the bar.

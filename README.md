@@ -78,6 +78,7 @@ mental-health review requirements) are in [`MOBILE.md`](./MOBILE.md). Quick star
 | POST | `/auth/register` | — | create account, returns JWT |
 | POST | `/auth/login` | — | returns JWT |
 | GET  | `/auth/me` | ✓ | current user |
+| DELETE | `/auth/me` | ✓ | permanently delete account + all data |
 | GET/POST | `/notes` | ✓ | list / create (own only) |
 | GET/PUT/DELETE | `/notes/{id}` | ✓ | read / update / delete (own only) |
 | POST | `/chat` | ✓ | counselor reply, crisis-gated, with memory |

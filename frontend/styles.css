@@ -98,6 +98,9 @@ h2 { margin: 0 0 12px; font-size: 1.05rem; }
 .chat-head { display: flex; align-items: center; justify-content: space-between; }
 .chat-controls { display: flex; align-items: center; gap: 10px; }
 .ghost.small { padding: 4px 10px; font-size: .8rem; }
+.topbar-actions { display: flex; gap: 8px; align-items: center; }
+#delete-account { color: #b23b3b; border-color: #e6c3c3; }
+#delete-account:hover { background: #fbeeee; }
 .voice-toggle { flex-direction: row; align-items: center; gap: 6px; font-size: .85rem;
   color: var(--muted); cursor: pointer; }
 .voice-toggle input { width: auto; margin: 0; }
