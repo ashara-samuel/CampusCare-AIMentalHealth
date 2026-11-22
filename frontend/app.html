@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CampusCare</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="index.html" style="text-decoration:none;color:inherit">
+      <span class="dot"></span> CampusCare
+    </a>
+    <span class="topbar-actions">
+      <button id="delete-account" class="ghost small hidden">Delete account</button>
+      <button id="logout" class="ghost hidden">Sign out</button>
+    </span>
+  </header>
+
+  <div class="disclaimer" role="note">
+    CampusCare is a supportive tool — not a therapist or a crisis service.
+    In an emergency, contact local emergency services or a crisis line.
+  </div>
+
+  <main class="wrap">
+    <!-- Auth -->
+    <section id="auth-view" class="card auth">
+      <div class="tabs">
+        <button class="tab active" data-tab="login">Sign in</button>
+        <button class="tab" data-tab="register">Create account</button>
+      </div>
+
+      <form id="login-form" class="form">
+        <label>Email <input type="email" name="email" required /></label>
+        <label>Password <input type="password" name="password" required /></label>
+        <button type="submit" class="primary">Sign in</button>
+      </form>
+
+      <form id="register-form" class="form hidden">
+        <label>Name <input type="text" name="display_name" placeholder="optional" /></label>
+        <label>Email <input type="email" name="email" required /></label>
+        <label>Password <input type="password" name="password" minlength="8" required />
+          <small>At least 8 characters.</small></label>
+        <button type="submit" class="primary">Create account</button>
+      </form>
+
+      <p id="auth-error" class="error" aria-live="polite"></p>
+    </section>
+
+    <!-- App -->
+    <section id="app-view" class="grid hidden">
+      <div class="card chat">
+        <div class="chat-head">
+          <h2>Talk it through</h2>
+          <div class="chat-controls">
+            <label class="voice-toggle" title="Read replies aloud">
+              <input type="checkbox" id="voice-out" /> <span>🔊 Voice</span>
+            </label>
+            <button type="button" id="clear-history" class="ghost small"
+                    title="Delete your conversation history">Clear</button>
+          </div>
+        </div>
+        <div id="messages" class="messages" aria-live="polite"></div>
+        <form id="chat-form" class="chat-input">
+          <button type="button" id="mic" class="mic" title="Speak" aria-label="Speak">🎤</button>
+          <input id="chat-text" type="text" autocomplete="off"
+                 placeholder="How are you feeling?" maxlength="4000" required />
+          <button type="submit" class="primary">Send</button>
+        </form>
+      </div>
+
+      <div class="card notes">
+        <h2>Your notes</h2>
+        <form id="note-form" class="form">
+          <input name="title" placeholder="Title" maxlength="200" />
+          <textarea name="text" placeholder="Write a private note…" rows="3"
+                    maxlength="20000"></textarea>
+          <button type="submit" class="primary">Save note</button>
+        </form>
+        <div id="note-list" class="note-list"></div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <a href="privacy.html" target="_blank" rel="noopener">Privacy Policy</a>
+  </footer>
+
+  <script src="config.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
